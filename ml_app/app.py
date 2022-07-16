@@ -20,7 +20,6 @@ def predict():
 
 @app.route('/eval', methods=['GET'])
 def eval():
-    _, _, test_pool = get_train_val_test_pools(**params['data_params'])
     score = catboost_model.eval_model(test_pool)
     return dict(
         resutl=f'Accuracy on the test set is {score * 100:.2f}%.'
@@ -33,5 +32,6 @@ if __name__ == '__main__':
         params = yaml.safe_load(f)
 
     catboost_model = GBTrees(**params['catboost_params'])
+    _, _, test_pool = get_train_val_test_pools(**params['data_params'])
 
     app.run()
