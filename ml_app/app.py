@@ -1,8 +1,18 @@
 from flask import Flask, request
 import yaml
-from ml_app.catboost_model import GBTrees, get_train_val_test_pools
+from catboost_model import GBTrees, get_train_val_test_pools
+import os
 
 app = Flask(__name__)
+# print(os.getcwd())
+# print(os.listdir())
+
+params_fn = 'ml_app/configs/catboost_config.yml'
+with open(params_fn, 'r') as f:
+    params = yaml.safe_load(f)
+
+catboost_model = GBTrees(**params['catboost_params'])
+_, _, test_pool = get_train_val_test_pools(**params['data_params'])
 
 
 @app.route('/predict', methods=['POST'])
@@ -27,11 +37,4 @@ def eval():
 
 
 if __name__ == '__main__':
-    params_fn = 'configs/catboost_config.yml'
-    with open(params_fn, 'r') as f:
-        params = yaml.safe_load(f)
-
-    catboost_model = GBTrees(**params['catboost_params'])
-    _, _, test_pool = get_train_val_test_pools(**params['data_params'])
-
     app.run()

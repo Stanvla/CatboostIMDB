@@ -4,12 +4,12 @@ catboost_params:
   eval_metric: 'AUC'
   leaf_estimation_method: 'Newton'
   l2_leaf_reg: 5
-  text_processing_params_json: 'configs/text_processing.json'
-  model_fn: 'model_files/catboost.bin'
+  text_processing_params_json: 'ml_app/configs/text_processing.json'
+  model_fn: 'ml_app/model_files/catboost.bin'
   random_seed: 42
 
 data_params:
   val_frac: 0.2
   test_frac: 0.2
-  csv_file: 'data/imdb.csv'
+  csv_file: 'ml_app/data/imdb.csv'
   seed: 42
